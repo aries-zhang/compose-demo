@@ -1,8 +1,7 @@
 version: "3"
 services:
   web:
-    # replace username/repo:tag with your name and image details
-    image: username/repo:tag
+    image: arieszhang/compose-demo:v1.0
     deploy:
       replicas: 5
       restart_policy:
@@ -12,7 +11,7 @@ services:
           cpus: "0.1"
           memory: 50M
     ports:
-      - "80:80"
+      - "8084:80"
     networks:
       - webnet
   redis:
@@ -20,12 +19,13 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - "/home/docker/data:/data"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
+      # For windows containers
+      - "E:\\Temp\\compose-demo\\redis:/data"
+      # For linux containers
+      # - "/home/docker/data:/data"
     command: redis-server --appendonly yes
     networks:
       - webnet
+
 networks:
   webnet:
